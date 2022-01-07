@@ -1,3 +1,99 @@
-<head>
-  <meta http-equiv='refresh' content='0; URL=https://vrch.studio/'>
-</head>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Vrch Demo</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body class="dark">
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas"></canvas>
+    </div>
+    <div id="loading-cover" style="display:none;">
+      <div id="unity-loading-bar">
+        <div id="unity-logo"><img src="logo.png"></div>
+        <div id="unity-progress-bar-empty" style="display: none;">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+        <div class="spinner"></div>
+        <div class="infocover">
+          <p class="infotext" id="text1">境外服务器，中国大陆加载速度较慢，请耐心等候</p>
+          <p class="infotext" id="text2">支持桌面端及移动端浏览器，桌面端可使用键盘wasd控制</p>
+          <p class="infotext" id="text3">移动端请使用屏幕虚拟摇杆控制，建议横屏</p>
+          <p class="infotext" id="text4">此为 Vrch未筑 早期测试demo，诸多功能尚未完成</p>
+          <p class="infotext" id="text5">如有疑问反馈或商务合作，请发邮件至 hi@vrch.io</p>
+        </div>
+      </div>
+    </div>
+    <div id="unity-fullscreen-button" style="display: none;"></div>
+    <script>
+      const hideFullScreenButton = "true";
+      const buildUrl = "Build";
+      const loaderUrl = buildUrl + "/demo.loader.js";
+      const config = {
+        dataUrl: buildUrl + "/demo.data",
+        frameworkUrl: buildUrl + "/demo.framework.js",
+        codeUrl: buildUrl + "/demo.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Vrch",
+        productName: "Vrch Demo",
+        productVersion: "0.0.014",
+      };
+
+      const container = document.querySelector("#unity-container");
+      const canvas = document.querySelector("#unity-canvas");
+      const loadingCover = document.querySelector("#loading-cover");
+      const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+      const progressBarFull = document.querySelector("#unity-progress-bar-full");
+      const fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      const spinner = document.querySelector('.spinner');
+
+      const canFullscreen = (function() {
+        for (const key of [
+            'exitFullscreen',
+            'webkitExitFullscreen',
+            'webkitCancelFullScreen',
+            'mozCancelFullScreen',
+            'msExitFullscreen',
+          ]) {
+          if (key in document) {
+            return true;
+          }
+        }
+        return false;
+      }());
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        config.devicePixelRatio = window.devicePixelRatio;
+      }
+      loadingCover.style.display = "";
+
+      const script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          spinner.style.display = "none";
+          progressBarEmpty.style.display = "";
+          progressBarFull.style.width = `${100 * progress}%`;
+        }).then((unityInstance) => {
+          loadingCover.style.display = "none";
+          if (canFullscreen) {
+            if (!hideFullScreenButton) {
+              fullscreenButton.style.display = "";
+            }
+            fullscreenButton.onclick = () => {
+              unityInstance.SetFullscreen(1);
+            };
+          }
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+    </script>
+  </body>
+</html>
