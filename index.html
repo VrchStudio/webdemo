@@ -20,11 +20,11 @@
         </div>
         <div class="spinner"></div>
         <div class="infocover">
-          <p class="infotext" id="text1">境外服务器，中国大陆加载速度较慢，请耐心等候</p>
+          <p class="infotext" id="text1">测试用服务器加载速度较慢，请耐心等候</p>
           <p class="infotext" id="text2">支持桌面端及移动端浏览器，桌面端可使用键盘wasd控制</p>
           <p class="infotext" id="text3">移动端请使用屏幕虚拟摇杆控制，建议横屏</p>
           <p class="infotext" id="text4">此为 Vrch未筑 早期测试demo，诸多功能尚未完成</p>
-          <p class="infotext" id="text5">如有疑问反馈或商务合作，请发邮件至 hi@vrch.io</p>
+          <p class="infotext" id="text5">如有疑问反馈，请发邮件至 hi@vrch.io</p>
         </div>
       </div>
     </div>
@@ -32,15 +32,15 @@
     <script>
       const hideFullScreenButton = "true";
       const buildUrl = "Build";
-      const loaderUrl = buildUrl + "/demo.loader.js";
+      const loaderUrl = buildUrl + "/vrchdemo.loader.js";
       const config = {
-        dataUrl: buildUrl + "/demo.data",
-        frameworkUrl: buildUrl + "/demo.framework.js",
-        codeUrl: buildUrl + "/demo.wasm",
+        dataUrl: buildUrl + "/vrchdemo.data",
+        frameworkUrl: buildUrl + "/vrchdemo.framework.js",
+        codeUrl: buildUrl + "/vrchdemo.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Vrch",
         productName: "Vrch Demo",
-        productVersion: "0.0.014",
+        productVersion: "0.0.015",
       };
 
       const container = document.querySelector("#unity-container");
